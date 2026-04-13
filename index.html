@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Для Егора</title>
+<title>Егор</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -11,7 +11,7 @@ body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
-  background: #0b1020; /* 🌙 вечная ночь */
+  background: #070b18;
   font-family: monospace;
   color: white;
 }
@@ -22,54 +22,127 @@ body {
   width: 2px;
   height: 2px;
   background: white;
-  animation: blink 2s infinite alternate;
-}
-
-@keyframes blink {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+  opacity: 0.8;
 }
 
 /* ☁️ облака */
 .cloud {
   position: absolute;
   width: 120px;
-  height: 40px;
-  background: #fff;
-  opacity: 0.3;
-  box-shadow: 20px 0 #fff, 40px 0 #fff, 60px 0 #fff;
-  animation: moveClouds 80s linear infinite;
+  height: 30px;
+  background: white;
+  opacity: 0.15;
+  box-shadow: 20px 0 white, 40px 0 white;
+  animation: move 60s linear infinite;
 }
 
-.cloud1 { top: 20%; left: -200px; }
-.cloud2 { top: 50%; left: -300px; }
-
-@keyframes moveClouds {
-  from { transform: translateX(0); }
-  to { transform: translateX(200vw); }
+@keyframes move {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(120vw); }
 }
 
-/* 🧍 игрок (ты) */
-#player {
+/* 🧍 персонажи */
+.character {
   position: absolute;
   bottom: 80px;
-  left: 50px;
-  width: 20px;
-  height: 40px;
+  width: 30px;
+  height: 50px;
+  transition: left 2s linear;
+}
 
-  background: #d2a679; /* тело */
+/* ТЫ */
+#player {
+  left: 40px;
+  background: #caa06a;
   box-shadow:
-    /* голова */
-    2px -20px 0 6px #f2d3b1,
+    0 -18px 0 6px #f2d2b6,   /* голова */
+    0 -24px 0 6px #b58a5a,   /* волосы */
+    8px -16px 0 1px #2ecc71, /* глаза */
+    -8px -16px 0 1px #2ecc71;
+}
 
-    /* волосы (русый шэгги) */
-    0px -26px 0 6px #b58a5a,
+/* ЕГОР */
+#egor {
+  right: 40px;
+  background: #e0b08a;
+  box-shadow:
+    0 -18px 0 6px #ffe0c2,
+    0 -24px 0 6px #ff6a2a,
+    8px -16px 0 1px #222,
+    -8px -16px 0 1px #222,
+    0 10px 0 8px #3a3a3a; /* подкаченный */
+}
 
-    /* глаза (зелёные) */
-    3px -18px 0 1px #2ecc71,
-    9px -18px 0 1px #2ecc71,
+/* UI */
+#ui {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+}
 
-    /* ноги */
+button {
+  padding: 10px;
+  cursor: pointer;
+  font-family: monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+  <div id="text">Нажми кнопку</div>
+  <button onclick="start()">Начать</button>
+</div>
+
+<div id="player" class="character"></div>
+<div id="egor" class="character"></div>
+
+<script>
+/* ⭐ звёзды */
+for (let i = 0; i < 60; i++) {
+  let s = document.createElement("div");
+  s.className = "star";
+  s.style.top = Math.random() * 100 + "%";
+  s.style.left = Math.random() * 100 + "%";
+  document.body.appendChild(s);
+}
+
+/* ☁️ облака */
+for (let i = 0; i < 3; i++) {
+  let c = document.createElement("div");
+  c.className = "cloud";
+  c.style.top = (20 + i * 20) + "%";
+  document.body.appendChild(c);
+}
+
+function start() {
+  const player = document.getElementById("player");
+  const text = document.getElementById("text");
+
+  text.innerText = "Ты идёшь к Егору...";
+
+  player.style.left = "70%";
+
+  setTimeout(() => {
+    text.innerText = "Егор: о, ты пришёл 😄";
+
+    confetti({
+      particleCount: 120,
+      spread: 70
+    });
+
+    setTimeout(() => {
+      text.innerText = "диалог: это важно для нас";
+    }, 2000);
+
+  }, 2000);
+}
+</script>
+
+</body>
+</html>    /* ноги */
     2px 40px 0 6px #2c2c2c,
     10px 40px 0 6px #2c2c2c;
 
