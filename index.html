@@ -21,32 +21,82 @@ body {
   font-family: 'Press Start 2P', cursive;
   color: white;
 
-  background: linear-gradient(#5c94fc, #a9d6ff);
+  animation: sky 12s infinite alternate;
 }
 
-/* пиксельные облака */
+/* 🌞 / 🌙 небо */
+@keyframes sky {
+  0% { background: linear-gradient(#4facfe, #a9d6ff); }
+  50% { background: linear-gradient(#1b2735, #090a0f); }
+  100% { background: linear-gradient(#4facfe, #a9d6ff); }
+}
+
+/* ⭐ звёзды */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+/* ☁️ облака */
 .cloud {
   position: absolute;
-  width: 200px;
-  height: 60px;
+  width: 160px;
+  height: 50px;
   background: white;
-  box-shadow:
-    20px 0 white,
-    40px 0 white,
-    60px 0 white,
-    80px 0 white,
-    100px 0 white;
-  image-rendering: pixelated;
-  animation: moveClouds linear infinite;
+  box-shadow: 20px 0 white, 40px 0 white, 60px 0 white;
+  animation: moveClouds 70s linear infinite;
 }
 
-.cloud1 { top: 20%; left: -250px; animation-duration: 60s; }
-.cloud2 { top: 40%; left: -300px; animation-duration: 80s; }
-.cloud3 { top: 60%; left: -200px; animation-duration: 70s; }
+.cloud1 { top: 15%; left: -200px; }
+.cloud2 { top: 40%; left: -300px; animation-duration: 90s; }
+.cloud3 { top: 65%; left: -250px; animation-duration: 80s; }
 
 @keyframes moveClouds {
   from { transform: translateX(0); }
   to { transform: translateX(200vw); }
+}
+
+/* 🧍 персонаж */
+.player {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+
+  width: 48px;
+  height: 64px;
+
+  image-rendering: pixelated;
+
+  background:
+    linear-gradient(#c49a6c, #c49a6c) 8px 0/32px 12px no-repeat,
+    radial-gradient(#f2d3b1 60%, transparent 61%) 14px 12px/20px 20px no-repeat,
+    radial-gradient(#2ecc71 40%, transparent 41%) 18px 20px/4px 4px no-repeat,
+    radial-gradient(#2ecc71 40%, transparent 41%) 28px 20px/4px 4px no-repeat,
+    linear-gradient(#333, #333) 20px 32px/8px 20px no-repeat,
+    linear-gradient(#222, #222) 18px 52px/4px 10px no-repeat,
+    linear-gradient(#222, #222) 26px 52px/4px 10px no-repeat;
+
+  animation: idle 1.2s infinite alternate;
+}
+
+@keyframes idle {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
 }
 
 /* карточка */
@@ -55,21 +105,18 @@ body {
   padding: 30px;
   border: 4px solid #000;
   box-shadow: 8px 8px 0 #000;
-  max-width: 500px;
+  max-width: 520px;
   text-align: center;
-}
-
-h1 {
-  font-size: 16px;
+  z-index: 5;
 }
 
 .counter {
   margin: 20px 0;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .text {
-  font-size: 12px;
+  font-size: 10px;
   margin-top: 15px;
 }
 
@@ -94,19 +141,22 @@ iframe {
 
 <body>
 
-<!-- облака -->
+<div class="stars" id="stars"></div>
+
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
 
+<div class="player" id="player"></div>
+
 <div class="card">
-  <h1>ЕГОР, СМОТРИ</h1>
+  <h1>ЕГОР</h1>
 
   <div class="counter" id="counter">...</div>
 
   <div class="text">
-    мы уже столько времени дружим<br>
-    и это реально круто
+    мы уже долго дружим<br>
+    и это реально ценно
   </div>
 
   <button onclick="startExperience()">ЖМИ</button>
@@ -118,8 +168,21 @@ iframe {
   </iframe>
 </div>
 
+<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c8a7c1b2f.mp3?filename=click-124467.mp3"></audio>
+
 <script>
 const startDate = new Date("2021-04-14T00:00:00");
+
+/* ⭐ звёзды */
+const stars = document.getElementById("stars");
+for (let i = 0; i < 50; i++) {
+  const s = document.createElement("div");
+  s.className = "star";
+  s.style.top = Math.random() * 100 + "%";
+  s.style.left = Math.random() * 100 + "%";
+  s.style.animationDuration = (1 + Math.random() * 3) + "s";
+  stars.appendChild(s);
+}
 
 function getTime() {
   const now = new Date();
@@ -129,20 +192,34 @@ function getTime() {
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
-  return days + " ДНЕЙ " + hours + " ЧАСОВ " + minutes + " МИНУТ";
+  return `${days} ДНЕЙ ${hours} ЧАСОВ ${minutes} МИНУТ`;
 }
 
 function startExperience() {
+
+  // 🔊 звук
+  document.getElementById("clickSound").play();
+
+  // 🎉 конфетти
   confetti({
-    particleCount: 120,
-    spread: 70
+    particleCount: 140,
+    spread: 80
   });
 
+  // ⏱️ счётчик
   document.getElementById("counter").innerText = getTime();
 
+  // 🎵 видео
   const video = document.getElementById("video");
   video.style.display = "block";
   video.src = "https://www.youtube.com/embed/KtRjdUJIQe4?autoplay=1&rel=0";
+
+  // 🧍 реакция персонажа
+  const player = document.getElementById("player");
+  player.style.transform = "scale(1.2) translateY(-10px)";
+  setTimeout(() => {
+    player.style.transform = "scale(1)";
+  }, 400);
 }
 </script>
 
