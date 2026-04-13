@@ -1,82 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Для Егора</title>
+<meta charset="UTF-8">
+<title>Для Егора</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      text-align: center;
-      padding: 50px;
-      color: #333;
-    }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      animation: fadeIn 1.2s ease;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
 
-    .counter {
-      font-size: 32px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .text {
-      font-size: 18px;
-      margin-top: 20px;
-    }
+  font-family: 'Press Start 2P', cursive;
+  color: white;
 
-    button {
-      margin-top: 25px;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 12px;
-      background: #ff7a7a;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+  background: linear-gradient(#5c94fc, #a9d6ff);
+}
 
-    iframe {
-      margin-top: 25px;
-      width: 100%;
-      height: 315px;
-      border-radius: 12px;
-      display: none;
-    }
+/* пиксельные облака */
+.cloud {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  background: white;
+  box-shadow:
+    20px 0 white,
+    40px 0 white,
+    60px 0 white,
+    80px 0 white,
+    100px 0 white;
+  image-rendering: pixelated;
+  animation: moveClouds linear infinite;
+}
 
-    @keyframes fadeIn {
-      from {opacity:0;}
-      to {opacity:1;}
-    }
-  </style>
+.cloud1 { top: 20%; left: -250px; animation-duration: 60s; }
+.cloud2 { top: 40%; left: -300px; animation-duration: 80s; }
+.cloud3 { top: 60%; left: -200px; animation-duration: 70s; }
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(200vw); }
+}
+
+/* карточка */
+.card {
+  background: #2d2d2d;
+  padding: 30px;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  max-width: 500px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 16px;
+}
+
+.counter {
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.text {
+  font-size: 12px;
+  margin-top: 15px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  font-family: inherit;
+  background: #ffcc00;
+  border: 3px solid #000;
+  cursor: pointer;
+}
+
+iframe {
+  margin-top: 20px;
+  width: 100%;
+  height: 250px;
+  display: none;
+  border: 3px solid black;
+}
+</style>
 </head>
+
 <body>
 
+<!-- облака -->
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
 <div class="card">
-  <h1>💛 Егор, смотри что я нашёл</h1>
-  <p>Я тут немного посчитал...</p>
+  <h1>ЕГОР, СМОТРИ</h1>
 
   <div class="counter" id="counter">...</div>
 
   <div class="text">
-    Мы с тобой уже столько времени вместе,<br>
-    и если честно — это одна из самых ценных вещей в моей жизни
+    мы уже столько времени дружим<br>
+    и это реально круто
   </div>
 
-  <button onclick="startExperience()">Нажми сюда 👇</button>
+  <button onclick="startExperience()">ЖМИ</button>
 
-  <!-- встроенное видео -->
   <iframe id="video"
     src=""
     allow="autoplay; encrypted-media"
@@ -85,35 +119,31 @@
 </div>
 
 <script>
-  const startDate = new Date("2021-04-14T00:00:00");
+const startDate = new Date("2021-04-14T00:00:00");
 
-  function getTime() {
-    const now = new Date();
-    const diff = now - startDate;
+function getTime() {
+  const now = new Date();
+  const diff = now - startDate;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
-    return `${days} дней ${hours} часов ${minutes} минут`;
-  }
+  return days + " ДНЕЙ " + hours + " ЧАСОВ " + minutes + " МИНУТ";
+}
 
-  function startExperience() {
-    // конфетти
-    confetti({
-      particleCount: 160,
-      spread: 90,
-      origin: { y: 0.6 }
-    });
+function startExperience() {
+  confetti({
+    particleCount: 120,
+    spread: 70
+  });
 
-    // показать счётчик
-    document.getElementById("counter").innerText = getTime();
+  document.getElementById("counter").innerText = getTime();
 
-    // показать и запустить видео
-    const video = document.getElementById("video");
-    video.style.display = "block";
-    video.src = "https://www.youtube.com/embed/KtRjdUJIQe4?autoplay=1&rel=0";
-  }
+  const video = document.getElementById("video");
+  video.style.display = "block";
+  video.src = "https://www.youtube.com/embed/KtRjdUJIQe4?autoplay=1&rel=0";
+}
 </script>
 
 </body>
