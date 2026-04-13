@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Сколько мы дружим</title>
+  <title>Для Егора</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,44 +14,107 @@
       padding: 50px;
       color: #333;
     }
+
     .card {
       background: white;
       border-radius: 20px;
-      padding: 30px;
-      max-width: 500px;
+      padding: 40px;
+      max-width: 520px;
       margin: auto;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: fadeIn 1.2s ease;
     }
-    h1 {
-      margin-bottom: 10px;
-    }
-    .days {
-      font-size: 40px;
+
+    h1 { margin-bottom: 10px; }
+
+    .counter {
+      font-size: 34px;
       font-weight: bold;
-      margin: 20px 0;
+      margin: 25px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    .text {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 12px;
+      background: #ff7a7a;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff5252;
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0;}
+      to {opacity:1;}
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity:1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>💛 Сколько мы уже дружим</h1>
-  <p>Я тут посчитал...</p>
+  <h1>💛 Егор, смотри что я нашёл</h1>
+  <p>Я тут немного посчитал...</p>
 
-  <div class="days" id="days"></div>
+  <div class="counter" id="counter">...</div>
 
-  <p>И это только начало 😄</p>
+  <div class="text">
+    Мы с тобой уже столько времени вместе,<br>
+    и если честно — это одна из самых ценных вещей в моей жизни
+  </div>
+
+  <button onclick="startExperience()">Нажми сюда 👇</button>
 </div>
 
 <script>
-  // ВСТАВЬ СЮДА ДАТУ НАЧАЛА ДРУЖБЫ
-  const startDate = new Date("2021-04-14"); 
+  // дата начала дружбы
+  const startDate = new Date("2021-04-14T00:00:00");
 
-  const today = new Date();
-  const diffTime = today - startDate;
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  function getTime() {
+    const now = new Date();
+    const diff = now - startDate;
 
-  document.getElementById("days").innerText = diffDays + " дней";
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    return `${days} дней ${hours} часов ${minutes} минут`;
+  }
+
+  function startExperience() {
+    // конфетти
+    confetti({
+      particleCount: 160,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+
+    // показать счётчик
+    document.getElementById("counter").innerText = getTime();
+
+    // открыть песню
+    window.open("https://www.youtube.com/results?search_query=корни+наперегонки+с+ветром", "_blank");
+  }
 </script>
 
 </body>
