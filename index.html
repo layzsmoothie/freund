@@ -19,22 +19,16 @@
       background: white;
       border-radius: 20px;
       padding: 40px;
-      max-width: 520px;
+      max-width: 600px;
       margin: auto;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       animation: fadeIn 1.2s ease;
     }
 
-    h1 { margin-bottom: 10px; }
-
     .counter {
-      font-size: 34px;
+      font-size: 32px;
       font-weight: bold;
-      margin: 25px 0;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUp 1s ease forwards;
-      animation-delay: 0.5s;
+      margin: 20px 0;
     }
 
     .text {
@@ -53,23 +47,77 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #ff5252;
+    iframe {
+      margin-top: 25px;
+      width: 100%;
+      height: 315px;
+      border-radius: 12px;
+      display: none;
     }
 
     @keyframes fadeIn {
       from {opacity:0;}
       to {opacity:1;}
     }
-
-    @keyframes slideUp {
-      to {
-        opacity:1;
-        transform: translateY(0);
-      }
-    }
   </style>
 </head>
+<body>
+
+<div class="card">
+  <h1>💛 Егор, смотри что я нашёл</h1>
+  <p>Я тут немного посчитал...</p>
+
+  <div class="counter" id="counter">...</div>
+
+  <div class="text">
+    Мы с тобой уже столько времени вместе,<br>
+    и если честно — это одна из самых ценных вещей в моей жизни
+  </div>
+
+  <button onclick="startExperience()">Нажми сюда 👇</button>
+
+  <!-- встроенное видео -->
+  <iframe id="video"
+    src=""
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+  const startDate = new Date("2021-04-14T00:00:00");
+
+  function getTime() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    return `${days} дней ${hours} часов ${minutes} минут`;
+  }
+
+  function startExperience() {
+    // конфетти
+    confetti({
+      particleCount: 160,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+
+    // показать счётчик
+    document.getElementById("counter").innerText = getTime();
+
+    // показать и запустить видео
+    const video = document.getElementById("video");
+    video.style.display = "block";
+    video.src = "https://www.youtube.com/embed/9GZgzc3_-eA?autoplay=1";
+  }
+</script>
+
+</body>
+</html></head>
 <body>
 
 <div class="card">
@@ -113,7 +161,7 @@
     document.getElementById("counter").innerText = getTime();
 
     // открыть песню
-    window.open("https://www.youtube.com/results?search_query=корни+наперегонки+с+ветром", "_blank");
+    window.open("https://www.youtube.com/watch?v=KtRjdUJIQe4", "_blank");
   }
 </script>
 
