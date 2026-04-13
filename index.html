@@ -4,73 +4,14 @@
 <meta charset="UTF-8">
 <title>Егор</title>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <style>
 body {
   margin: 0;
   height: 100vh;
-  overflow: hidden;
-  background: #070b18;
+  background: #0b1020;
   font-family: monospace;
   color: white;
-}
-
-/* ⭐ звёзды */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  opacity: 0.8;
-}
-
-/* ☁️ облака */
-.cloud {
-  position: absolute;
-  width: 120px;
-  height: 30px;
-  background: white;
-  opacity: 0.15;
-  box-shadow: 20px 0 white, 40px 0 white;
-  animation: move 60s linear infinite;
-}
-
-@keyframes move {
-  from { transform: translateX(-200px); }
-  to { transform: translateX(120vw); }
-}
-
-/* 🧍 персонажи */
-.character {
-  position: absolute;
-  bottom: 80px;
-  width: 30px;
-  height: 50px;
-  transition: left 2s linear;
-}
-
-/* ТЫ */
-#player {
-  left: 40px;
-  background: #caa06a;
-  box-shadow:
-    0 -18px 0 6px #f2d2b6,   /* голова */
-    0 -24px 0 6px #b58a5a,   /* волосы */
-    8px -16px 0 1px #2ecc71, /* глаза */
-    -8px -16px 0 1px #2ecc71;
-}
-
-/* ЕГОР */
-#egor {
-  right: 40px;
-  background: #e0b08a;
-  box-shadow:
-    0 -18px 0 6px #ffe0c2,
-    0 -24px 0 6px #ff6a2a,
-    8px -16px 0 1px #222,
-    -8px -16px 0 1px #222,
-    0 10px 0 8px #3a3a3a; /* подкаченный */
+  overflow: hidden;
 }
 
 /* UI */
@@ -79,12 +20,41 @@ body {
   top: 20px;
   width: 100%;
   text-align: center;
+  z-index: 10;
 }
 
 button {
-  padding: 10px;
+  padding: 10px 20px;
   cursor: pointer;
   font-family: monospace;
+}
+
+/* персонажи */
+.char {
+  position: absolute;
+  bottom: 80px;
+  width: 40px;
+  height: 60px;
+}
+
+/* ты */
+#player {
+  left: 60px;
+  background: #caa06a;
+}
+
+/* Егор */
+#egor {
+  right: 60px;
+  background: #e0b08a;
+}
+
+/* звёзды */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
 }
 </style>
 </head>
@@ -93,28 +63,20 @@ button {
 
 <div id="ui">
   <div id="text">Нажми кнопку</div>
-  <button onclick="start()">Начать</button>
+  <button onclick="start()">Старт</button>
 </div>
 
-<div id="player" class="character"></div>
-<div id="egor" class="character"></div>
+<div id="player" class="char"></div>
+<div id="egor" class="char"></div>
 
 <script>
-/* ⭐ звёзды */
-for (let i = 0; i < 60; i++) {
-  let s = document.createElement("div");
+// звёзды (без ошибок, просто фон)
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement("div");
   s.className = "star";
   s.style.top = Math.random() * 100 + "%";
   s.style.left = Math.random() * 100 + "%";
   document.body.appendChild(s);
-}
-
-/* ☁️ облака */
-for (let i = 0; i < 3; i++) {
-  let c = document.createElement("div");
-  c.className = "cloud";
-  c.style.top = (20 + i * 20) + "%";
-  document.body.appendChild(c);
 }
 
 function start() {
@@ -123,309 +85,12 @@ function start() {
 
   text.innerText = "Ты идёшь к Егору...";
 
-  player.style.left = "70%";
+  player.style.transition = "left 2s linear";
+  player.style.left = "60%";
 
   setTimeout(() => {
-    text.innerText = "Егор: о, ты пришёл 😄";
-
-    confetti({
-      particleCount: 120,
-      spread: 70
-    });
-
-    setTimeout(() => {
-      text.innerText = "диалог: это важно для нас";
-    }, 2000);
-
+    text.innerText = "Егор: привет 😄";
   }, 2000);
-}
-</script>
-
-</body>
-</html>    /* ноги */
-    2px 40px 0 6px #2c2c2c,
-    10px 40px 0 6px #2c2c2c;
-
-  transition: transform 0.5s;
-}
-
-/* 🧍 Егор */
-#egor {
-  position: absolute;
-  bottom: 80px;
-  right: 80px;
-  width: 20px;
-  height: 40px;
-
-  background: #e0b38a;
-  box-shadow:
-    2px -20px 0 6px #ffe0c2,
-
-    /* рыжие волосы */
-    0px -26px 0 6px #ff7a2f,
-
-    /* веснушки */
-    5px -16px 0 1px #d28b5f,
-    7px -14px 0 1px #d28b5f,
-
-    /* глаза */
-    3px -18px 0 1px #222,
-    9px -18px 0 1px #222,
-
-    /* более “накачанный” корпус */
-    0px 10px 0 8px #3a3a3a,
-
-    /* ноги */
-    2px 40px 0 6px #2c2c2c,
-    10px 40px 0 6px #2c2c2c;
-}
-
-/* карточка */
-.card {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20,20,20,0.8);
-  padding: 15px;
-  border: 2px solid white;
-  text-align: center;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px;
-  cursor: pointer;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 🌟 звёзды -->
-<div id="stars"></div>
-
-<!-- ☁️ облака -->
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
-
-<!-- 🧍 персонажи -->
-<div id="player"></div>
-<div id="egor"></div>
-
-<!-- UI -->
-<div class="card">
-  <div id="text">Егор... нажми кнопку</div>
-  <button onclick="start()">Начать</button>
-</div>
-
-<script>
-const startDate = new Date("2021-04-14T00:00:00");
-
-/* ⭐ звёзды */
-for (let i = 0; i < 60; i++) {
-  let s = document.createElement("div");
-  s.className = "star";
-  s.style.top = Math.random()*100 + "%";
-  s.style.left = Math.random()*100 + "%";
-  document.body.appendChild(s);
-}
-
-function getTime() {
-  const now = new Date();
-  const diff = now - startDate;
-
-  const days = Math.floor(diff / 86400000);
-  const hours = Math.floor(diff / 3600000 % 24);
-  const minutes = Math.floor(diff / 60000 % 60);
-
-  return `${days} дней ${hours} часов ${minutes} минут`;
-}
-
-function start() {
-  document.getElementById("text").innerText =
-    "…я иду к тебе, Егор";
-
-  // движение персонажа
-  let player = document.getElementById("player");
-  let pos = 50;
-
-  let move = setInterval(() => {
-    pos += 5;
-    player.style.left = pos + "px";
-
-    if (pos > window.innerWidth - 150) {
-      clearInterval(move);
-
-      document.getElementById("text").innerText =
-        "Егор: о, ты реально пришёл 😄";
-
-      confetti({
-        particleCount: 150,
-        spread: 80
-      });
-
-      setTimeout(() => {
-        document.getElementById("text").innerText =
-          "Ты: мы дружим уже " + getTime();
-      }, 2000);
-    }
-  }, 50);
-}
-</script>
-
-</body>
-</html>}
-
-/* 🧍 персонаж */
-.player {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-
-  width: 48px;
-  height: 64px;
-
-  image-rendering: pixelated;
-
-  background:
-    linear-gradient(#c49a6c, #c49a6c) 8px 0/32px 12px no-repeat,
-    radial-gradient(#f2d3b1 60%, transparent 61%) 14px 12px/20px 20px no-repeat,
-    radial-gradient(#2ecc71 40%, transparent 41%) 18px 20px/4px 4px no-repeat,
-    radial-gradient(#2ecc71 40%, transparent 41%) 28px 20px/4px 4px no-repeat,
-    linear-gradient(#333, #333) 20px 32px/8px 20px no-repeat,
-    linear-gradient(#222, #222) 18px 52px/4px 10px no-repeat,
-    linear-gradient(#222, #222) 26px 52px/4px 10px no-repeat;
-
-  animation: idle 1.2s infinite alternate;
-}
-
-@keyframes idle {
-  from { transform: translateY(0); }
-  to { transform: translateY(-3px); }
-}
-
-/* карточка */
-.card {
-  background: #2d2d2d;
-  padding: 30px;
-  border: 4px solid #000;
-  box-shadow: 8px 8px 0 #000;
-  max-width: 520px;
-  text-align: center;
-  z-index: 5;
-}
-
-.counter {
-  margin: 20px 0;
-  font-size: 12px;
-}
-
-.text {
-  font-size: 10px;
-  margin-top: 15px;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px;
-  font-family: inherit;
-  background: #ffcc00;
-  border: 3px solid #000;
-  cursor: pointer;
-}
-
-iframe {
-  margin-top: 20px;
-  width: 100%;
-  height: 250px;
-  display: none;
-  border: 3px solid black;
-}
-</style>
-</head>
-
-<body>
-
-<div class="stars" id="stars"></div>
-
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
-<div class="cloud cloud3"></div>
-
-<div class="player" id="player"></div>
-
-<div class="card">
-  <h1>ЕГОР</h1>
-
-  <div class="counter" id="counter">...</div>
-
-  <div class="text">
-    мы уже долго дружим<br>
-    и это реально ценно
-  </div>
-
-  <button onclick="startExperience()">ЖМИ</button>
-
-  <iframe id="video"
-    src=""
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c8a7c1b2f.mp3?filename=click-124467.mp3"></audio>
-
-<script>
-const startDate = new Date("2021-04-14T00:00:00");
-
-/* ⭐ звёзды */
-const stars = document.getElementById("stars");
-for (let i = 0; i < 50; i++) {
-  const s = document.createElement("div");
-  s.className = "star";
-  s.style.top = Math.random() * 100 + "%";
-  s.style.left = Math.random() * 100 + "%";
-  s.style.animationDuration = (1 + Math.random() * 3) + "s";
-  stars.appendChild(s);
-}
-
-function getTime() {
-  const now = new Date();
-  const diff = now - startDate;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-  return `${days} ДНЕЙ ${hours} ЧАСОВ ${minutes} МИНУТ`;
-}
-
-function startExperience() {
-
-  // 🔊 звук
-  document.getElementById("clickSound").play();
-
-  // 🎉 конфетти
-  confetti({
-    particleCount: 140,
-    spread: 80
-  });
-
-  // ⏱️ счётчик
-  document.getElementById("counter").innerText = getTime();
-
-  // 🎵 видео
-  const video = document.getElementById("video");
-  video.style.display = "block";
-  video.src = "https://www.youtube.com/embed/KtRjdUJIQe4?autoplay=1&rel=0";
-
-  // 🧍 реакция персонажа
-  const player = document.getElementById("player");
-  player.style.transform = "scale(1.2) translateY(-10px)";
-  setTimeout(() => {
-    player.style.transform = "scale(1)";
-  }, 400);
 }
 </script>
 
