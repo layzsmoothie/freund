@@ -21,14 +21,8 @@ body {
   font-family: 'Press Start 2P', cursive;
   color: white;
 
-  animation: sky 12s infinite alternate;
-}
-
-/* 🌞 / 🌙 небо */
-@keyframes sky {
-  0% { background: linear-gradient(#4facfe, #a9d6ff); }
-  50% { background: linear-gradient(#1b2735, #090a0f); }
-  100% { background: linear-gradient(#4facfe, #a9d6ff); }
+  /* фиксированный фон вместо смены дня/ночи */
+  background: linear-gradient(#4facfe, #1b2735);
 }
 
 /* ⭐ звёзды */
@@ -150,13 +144,13 @@ iframe {
 <div class="player" id="player"></div>
 
 <div class="card">
-  <h1>ЕГОР</h1>
+  <h1>ЕГОР<3</h1>
 
   <div class="counter" id="counter">...</div>
 
   <div class="text">
     мы уже долго дружим<br>
-    и это реально ценно
+    и это реально круто!!
   </div>
 
   <button onclick="startExperience()">ЖМИ</button>
@@ -168,7 +162,8 @@ iframe {
   </iframe>
 </div>
 
-<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c8a7c1b2f.mp3?filename=click-124467.mp3"></audio>
+<audio id="clickSound"
+ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c8a7c1b2f.mp3?filename=click-124467.mp3"></audio>
 
 <script>
 const startDate = new Date("2021-04-14T00:00:00");
@@ -197,55 +192,24 @@ function getTime() {
 
 function startExperience() {
 
-  // 🔊 звук
   document.getElementById("clickSound").play();
 
-  // 🎉 конфетти
   confetti({
     particleCount: 140,
     spread: 80
   });
 
-  // ⏱️ счётчик
   document.getElementById("counter").innerText = getTime();
 
-  // 🎵 видео
   const video = document.getElementById("video");
   video.style.display = "block";
   video.src = "https://www.youtube.com/embed/KtRjdUJIQe4?autoplay=1&rel=0";
 
-  // 🧍 реакция персонажа
   const player = document.getElementById("player");
   player.style.transform = "scale(1.2) translateY(-10px)";
   setTimeout(() => {
     player.style.transform = "scale(1)";
   }, 400);
-}
-</script>
-
-</body>
-</html><script>
-// звёзды (без ошибок, просто фон)
-for (let i = 0; i < 80; i++) {
-  const s = document.createElement("div");
-  s.className = "star";
-  s.style.top = Math.random() * 100 + "%";
-  s.style.left = Math.random() * 100 + "%";
-  document.body.appendChild(s);
-}
-
-function start() {
-  const player = document.getElementById("player");
-  const text = document.getElementById("text");
-
-  text.innerText = "Ты идёшь к Егору...";
-
-  player.style.transition = "left 2s linear";
-  player.style.left = "60%";
-
-  setTimeout(() => {
-    text.innerText = "Егор: привет 😄";
-  }, 2000);
 }
 </script>
 
